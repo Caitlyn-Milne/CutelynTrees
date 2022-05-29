@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Authors>Caitlyn Milne</Authors>
+    <Version>0.0.14-alpha</Version>
+    <Description>A package for making trees easier</Description>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <BaseOutputPath>C:\Users\Caitl\Desktop\Software Projects\Libaries\Nuget</BaseOutputPath>
+	<Nullable>enable</Nullable>
+  </PropertyGroup>
+</Project>
