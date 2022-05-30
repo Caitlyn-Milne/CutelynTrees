@@ -11,7 +11,7 @@ namespace CutelynTrees.BinaryTree
         public IBinaryTreeNode<TValue> Left
         {
             get => _left;
-            set => _left = value;
+            set => _left = value;         
         }
 
         IBinaryTreeNode<TValue> _right;
@@ -29,8 +29,8 @@ namespace CutelynTrees.BinaryTree
             set => _value = value;
         }
 
-        public TreeNode<TValue>? _parent = null;
-        public TreeNode<TValue>? Parent
+        public IBinaryTreeNode<TValue>? _parent = null;
+        public IBinaryTreeNode<TValue>? Parent
         {
             get => _parent;
             set => _parent = value;

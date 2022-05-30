@@ -1,12 +1,25 @@
-﻿using System;
+﻿using CutelynTrees.Extensions;
+using CutelynTrees.TraversalMethods;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CutelynTrees.Extensions
 {
     public static partial class TreeNodeExtensions
     {
+        public static IEnumerable<ITreeNode<TValue>> Descendants<TValue>(this ITreeNode<TValue> node, TreeTraversalMethod method = TreeTraversalMethod.PRE_ORDER)
+        {
+            return method switch
+            {
+                TreeTraversalMethod.POST_ORDER => new PostOrderTraversalMethod<TValue>(node),
+                TreeTraversalMethod.IN_ORDER => throw new NotImplementedException(), //TODO create in order traversal method
+                _ => new PreOrderTraversalMethod<TValue>(node),
+            };
+        }
+
         public static List<ITreeNode<TValue>> FindDecendants<TValue>(this ITreeNode<TValue> node, TreeTraversalMethod method = TreeTraversalMethod.PRE_ORDER)
         {
             return method switch
@@ -71,6 +84,5 @@ namespace CutelynTrees.Extensions
             for (var i = position; i < children.Length; i++)
                 FindDescendantsInOrder(children[i], result);
         }
-
     }
 }

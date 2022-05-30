@@ -18,6 +18,8 @@ namespace CutelynTrees.Extensions
 
         public static bool IsLeaf<TValue>(this ITreeNode<TValue> node) => !node.Children.Any() || node.Children is null;
 
+        public static bool IsBranch<TValue>(this ITreeNode<TValue> node) => !node.IsLeaf() || !node.IsRoot();
+
         public static ITreeNode<TValue> FindRoot<TValue>(this ITreeNode<TValue> node)
         {
             if (node is null) return null;
