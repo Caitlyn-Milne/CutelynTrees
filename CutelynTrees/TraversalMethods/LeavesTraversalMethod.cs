@@ -10,9 +10,13 @@ namespace CutelynTrees.TraversalMethods
 {
     public class LeavesTraversalMethod<TValue> : TraversalMethod<TValue>
     {
-        private Stack<ITreeNode<TValue>> stack;
+        public LeavesTraversalMethod(ITreeNode<TValue> root) : base(() => new LeavesTraversalMethodEnumerator<TValue>(root)) { }
+    }
+    public class LeavesTraversalMethodEnumerator<TValue> : TraversalMethodEnumerator<TValue>
+    {
+        private Stack<ITreeNode<TValue>>? stack;
 
-        public LeavesTraversalMethod(ITreeNode<TValue> root) : base(root)
+        public LeavesTraversalMethodEnumerator(ITreeNode<TValue> root) : base(root)
         {
             Reset();
         }

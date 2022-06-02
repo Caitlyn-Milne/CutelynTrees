@@ -12,6 +12,15 @@ namespace CutelynTrees
             Value = value;
         }
 
+        public TreeNode<TValue> this[int i]
+        {
+            get => Children[i]; 
+            set { 
+                Children[i] = value;
+                value.Parent = this;
+            }
+        }
+
         public TreeNode<TValue>? _parent = null;
         public TreeNode<TValue>? Parent {
             get => _parent;
@@ -28,6 +37,7 @@ namespace CutelynTrees
 
         public List<TreeNode<TValue>> _children = new();
 
+        //TODO consider changing it to an array to prevent children being added through the list with out this class being notified
         public List<TreeNode<TValue>> Children
         {
             get => _children;

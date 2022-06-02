@@ -10,8 +10,12 @@ namespace CutelynTrees.TraversalMethods
 {
     public class PreOrderTraversalMethod<TValue> : TraversalMethod<TValue>
     {
-        private Stack<ITreeNode<TValue>> stack;
-        public PreOrderTraversalMethod(ITreeNode<TValue> root) : base(root)
+        public PreOrderTraversalMethod(ITreeNode<TValue> root) : base(() => new PreOrderTraversalMethodEnumerator<TValue>(root)){ }
+    }
+    public class PreOrderTraversalMethodEnumerator<TValue> : TraversalMethodEnumerator<TValue>
+    {
+        private Stack<ITreeNode<TValue>>? stack;
+        public PreOrderTraversalMethodEnumerator(ITreeNode<TValue> root) : base(root)
         {
             Reset();
         }

@@ -10,12 +10,16 @@ namespace CutelynTrees.TraversalMethods
 {
     public class PostOrderTraversalMethod<TValue> : TraversalMethod<TValue>
     {
+        public PostOrderTraversalMethod(ITreeNode<TValue> root) : base(() => new PostOrderTraversalEnumerator<TValue>(root)) { }
+    }
+    public class PostOrderTraversalEnumerator<TValue> : TraversalMethodEnumerator<TValue>
+    {
 
         private Stack<ITreeNode<TValue>> stack = new();
 
         HashSet<ITreeNode<TValue>> seen = new();
 
-        public PostOrderTraversalMethod(ITreeNode<TValue> root) : base(root)
+        public PostOrderTraversalEnumerator(ITreeNode<TValue> root) : base(root)
         {
             Reset();
         }
@@ -56,7 +60,6 @@ namespace CutelynTrees.TraversalMethods
             }
             return false;
         }
-
         public override void Reset()
         {
             stack = new();

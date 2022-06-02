@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace CutelynTrees.TraversalMethods
 {
-    public abstract class TraversalMethod<TValue> : IEnumerator<ITreeNode<TValue>>, IEnumerable<ITreeNode<TValue>>
-    {
-
+    public abstract class TraversalMethodEnumerator<TValue>: IEnumerator<ITreeNode<TValue>>{
         public ITreeNode<TValue> Root;
 
-        public TraversalMethod(ITreeNode<TValue> root)
+        public TraversalMethodEnumerator(ITreeNode<TValue> root)
         {
             Root = root;
         }
@@ -31,8 +29,18 @@ namespace CutelynTrees.TraversalMethods
         public abstract bool MoveNext();
 
         public abstract void Reset();
+    }
 
-        public IEnumerator<ITreeNode<TValue>> GetEnumerator() => this;
+    public abstract class TraversalMethod<TValue> : IEnumerable<ITreeNode<TValue>>
+    {
+        Func<TraversalMethodEnumerator<TValue>> makeTraversalMethodEnumator;
+
+        public TraversalMethod(Func<TraversalMethodEnumerator<TValue>> getEnumerator)
+        {
+            this.makeTraversalMethodEnumator = getEnumerator;
+        }
+
+        public IEnumerator<ITreeNode<TValue>> GetEnumerator() => makeTraversalMethodEnumator.Invoke();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }

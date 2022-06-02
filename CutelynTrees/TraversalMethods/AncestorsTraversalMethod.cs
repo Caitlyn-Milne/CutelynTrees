@@ -10,7 +10,11 @@ namespace CutelynTrees.TraversalMethods
 {
     public class AncestorsTraversalMethod<TValue> : TraversalMethod<TValue>
     {
-        public AncestorsTraversalMethod(ITreeNode<TValue> root) : base(root)
+        public AncestorsTraversalMethod(ITreeNode<TValue> root) : base(() => new AncestorsTraversalEnumerator<TValue>(root)) { }
+    }
+    public class AncestorsTraversalEnumerator<TValue> : TraversalMethodEnumerator<TValue>
+    {
+        public AncestorsTraversalEnumerator(ITreeNode<TValue> root) : base(root)
         {
             Reset();
         }
