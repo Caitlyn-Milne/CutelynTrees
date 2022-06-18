@@ -7,15 +7,15 @@ namespace CutelynTrees.BinaryTree
 {
     public class BinaryTreeNode<TValue> : IBinaryTreeNode<TValue>
     {
-        IBinaryTreeNode<TValue> _left;
-        public IBinaryTreeNode<TValue> Left
+        IBinaryTreeNode<TValue>? _left;
+        public IBinaryTreeNode<TValue>? Left
         {
             get => _left;
             set => _left = value;         
         }
 
-        IBinaryTreeNode<TValue> _right;
-        public IBinaryTreeNode<TValue> Right
+        IBinaryTreeNode<TValue>? _right;
+        public IBinaryTreeNode<TValue>? Right
         {
             get => _right;
             set => _right = value;

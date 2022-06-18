@@ -8,17 +8,17 @@ namespace CutelynTrees.Extensions
 {
     public static partial class TreeNodeExtensions
     {
-        public static List<ITreeNode<TValue>> FindAncestors<TValue>(this ITreeNode<TValue> node)
+        public static List<ITreeNode<TValue>> ToAncestors<TValue>(this ITreeNode<TValue> node)
         {
             if(node is null) return new();
 
-            var result = FindAncestors(node.Parent);
+            var result = ToAncestors(node.Parent);
             result.Add(node);
 
             return result;
         }
 
-        public static IEnumerable<ITreeNode<TValue>> Ancestors<TValue>(this ITreeNode<TValue> node)
+        public static IEnumerable<ITreeNode<TValue>> AsAncestors<TValue>(this ITreeNode<TValue> node)
         {
             return new AncestorsTraversalMethod<TValue>(node);
         }

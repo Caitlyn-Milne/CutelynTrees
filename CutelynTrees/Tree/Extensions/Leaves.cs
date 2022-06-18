@@ -10,18 +10,18 @@ namespace CutelynTrees.Extensions
 {
     public static partial class TreeNodeExtensions
     {
-        public static IEnumerable<ITreeNode<TValue>> Leaves<TValue>(this ITreeNode<TValue> node)
+        public static IEnumerable<ITreeNode<TValue>> AsLeaves<TValue>(this ITreeNode<TValue> node)
         {
             return new LeavesTraversalMethod<TValue>(node);
         }
 
-        public static List<ITreeNode<TValue>> FindLeaves<TValue>(this ITreeNode<TValue> node)
+        public static List<ITreeNode<TValue>> ToLeaves<TValue>(this ITreeNode<TValue> node)
         {
             var result = new List<ITreeNode<TValue>>();
-            node.FindLeaves(result);
+            node.ToLeaves(result);
             return result;
         }
-        public static void FindLeaves<TValue>(this ITreeNode<TValue> node, List<ITreeNode<TValue>> result)
+        public static void ToLeaves<TValue>(this ITreeNode<TValue> node, List<ITreeNode<TValue>> result)
         {
             if (node.IsLeaf())
             {
@@ -30,7 +30,7 @@ namespace CutelynTrees.Extensions
             }
 
             foreach (var child in node.Children)
-                child.FindLeaves(result);
+                child.ToLeaves(result);
         }
     }
 }

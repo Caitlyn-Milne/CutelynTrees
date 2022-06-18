@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 
@@ -7,51 +9,83 @@ namespace CutelynTrees
 {
     public class TreeNode<TValue> : ITreeNode<TValue>
     {
-        public TreeNode(TValue value)
+        public TreeNode(TValue value, params TreeNode<TValue>[] children)
         {
             Value = value;
-        }
+            Children.CollectionChanged += Children_CollectionChanged;
 
-        public TreeNode<TValue> this[int i]
-        {
-            get => Children[i]; 
-            set { 
-                Children[i] = value;
-                value.Parent = this;
+            foreach (var child in children)
+            {
+                Children.Add(child);
             }
         }
 
-        public TreeNode<TValue>? _parent = null;
-        public TreeNode<TValue>? Parent {
+        private TreeNode<TValue>? _parent = null;
+        private ObservableCollection<TreeNode<TValue>> _children = new();
+        private TValue _value;
+
+        IEnumerable<ITreeNode<TValue>> ITreeNode<TValue>.Children => Children;
+        ITreeNode<TValue>? ITreeNode<TValue>.Parent => Parent;
+
+        public TreeNode<TValue> this[int i]
+        {
+            get => Children[i];
+            set
+            {
+                Children[i] = value;
+            }
+        }
+
+        public TreeNode<TValue>? Parent
+        {
             get => _parent;
             set => _parent = value;
         }
-        ITreeNode<TValue>? ITreeNode<TValue>.Parent => Parent;
 
-        TValue _value;
+
         public TValue Value
         {
             get => _value;
             set => _value = value;
         }
 
-        public List<TreeNode<TValue>> _children = new();
-
-        //TODO consider changing it to an array to prevent children being added through the list with out this class being notified
-        public List<TreeNode<TValue>> Children
-        {
-            get => _children;
-            set
-            {
-                _children = value;
-                foreach (var child in _children)
-                    child.Parent = this;
-            }
-
-        }
-        IEnumerable<ITreeNode<TValue>> ITreeNode<TValue>.Children => Children;
+        public ObservableCollection<TreeNode<TValue>> Children => _children;
 
         public override string ToString() => Value?.ToString() ?? "";
+
+        private void Children_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            ChildrenAdded(e);
+            ChildrenRemoved(e);
+        }
+
+        private void ChildrenAdded(NotifyCollectionChangedEventArgs e)
+        {
+            var newItems = e?.NewItems;
+            if (newItems is null) return;
+
+            foreach (var item in newItems)
+            {
+                if (item is TreeNode<TValue> node)
+                {
+                    node.Parent = this;
+                }
+            }
+        }
+        private void ChildrenRemoved(NotifyCollectionChangedEventArgs e)
+        {
+            var oldItems = e?.OldItems;
+            if (oldItems is null) return;
+
+            foreach (var item in oldItems)
+            {
+                if (item is TreeNode<TValue> node && node.Parent == this)
+                {
+                    node.Parent = null;
+                }
+            }
+        }
+
 
 
     }
