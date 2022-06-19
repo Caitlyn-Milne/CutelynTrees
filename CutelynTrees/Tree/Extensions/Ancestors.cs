@@ -10,12 +10,15 @@ namespace CutelynTrees.Extensions
     {
         public static List<ITreeNode<TValue>> ToAncestors<TValue>(this ITreeNode<TValue> node)
         {
-            if(node is null) return new();
-
-            var result = ToAncestors(node.Parent);
-            result.Add(node);
-
-            return result;
+            var list = new List<ITreeNode<TValue>>();
+            node.ToAncestors(list);
+            return list;
+        }
+        public static void ToAncestors<TValue>(this ITreeNode<TValue> node, List<ITreeNode<TValue>> result)
+        {
+            if (node is null || node.Parent is null) return;
+            result.Add(node.Parent);
+            node.Parent.ToAncestors(result);
         }
 
         public static IEnumerable<ITreeNode<TValue>> AsAncestors<TValue>(this ITreeNode<TValue> node)

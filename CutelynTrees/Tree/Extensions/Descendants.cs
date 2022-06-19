@@ -26,7 +26,7 @@ namespace CutelynTrees.Extensions
             {
                 TreeTraversalMethod.POST_ORDER => node.ToDescendantsPostOrder(),
                 TreeTraversalMethod.IN_ORDER => node.ToDescendantsInOrder(),
-                _ => node.ToDescendantsPostOrder(),
+                _ => node.ToDescendantsPreOrder(),
             };
         }
 
@@ -46,7 +46,7 @@ namespace CutelynTrees.Extensions
 
         public static List<ITreeNode<TValue>> ToDescendantsPostOrder<TValue>(this ITreeNode<TValue> node)
         {
-            var result = node.ToDescendantsPostOrder();
+            var result = node.ToPostOrderTraversal();
             result.Remove(node);
             return result;
         }

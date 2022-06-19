@@ -53,7 +53,7 @@ namespace CutelynTrees
 
         public override string ToString() => Value?.ToString() ?? "";
 
-        private void Children_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void Children_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             ChildrenAdded(e);
             ChildrenRemoved(e);
@@ -66,10 +66,12 @@ namespace CutelynTrees
 
             foreach (var item in newItems)
             {
-                if (item is TreeNode<TValue> node)
+                if (item is not TreeNode<TValue> node) continue;
+                if (node.Parent is not null)
                 {
-                    node.Parent = this;
+                    node.Parent.Children.Remove(node);
                 }
+                node.Parent = this;
             }
         }
         private void ChildrenRemoved(NotifyCollectionChangedEventArgs e)
@@ -79,14 +81,11 @@ namespace CutelynTrees
 
             foreach (var item in oldItems)
             {
-                if (item is TreeNode<TValue> node && node.Parent == this)
-                {
-                    node.Parent = null;
-                }
+                if (item is not TreeNode<TValue> node 
+                    || node.Parent != this) continue;
+
+                node.Parent = null;
             }
         }
-
-
-
     }
 }

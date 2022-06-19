@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Testing
 {
-    public class AsMethodsTestCases
+    internal class AsMethodsTestCases
     {
         [Test]
         public void CheckFullTraversal()
         {
-            var tree = TreeFactory.CreateViaConstructor();
+            var tree = ConstructorTests.CreateViaConstructor();
 
             var traversal = tree.AsTraversal().Select(n => n.Value);
             Assert.That(traversal, Is.EqualTo(new int[] { 1, 2, 3, 4, 5, 6, 7 }));
@@ -26,7 +26,7 @@ namespace Testing
         [Test]
         public void CheckPreOrderLinqTests()
         {
-            var tree = TreeFactory.CreateViaConstructor();
+            var tree = ConstructorTests.CreateViaConstructor();
 
             var travseral = tree.AsTraversal();
 
@@ -42,7 +42,7 @@ namespace Testing
         [Test]
         public void CheckPostOrderLinqTests()
         {
-            var tree = TreeFactory.CreateViaConstructor();
+            var tree = ConstructorTests.CreateViaConstructor();
 
             var traversal = tree.AsTraversal(TreeTraversalMethod.POST_ORDER);
 
@@ -58,7 +58,7 @@ namespace Testing
         [Test]
         public void CheckDescendantsTests()
         {
-            var tree = TreeFactory.CreateViaConstructor();
+            var tree = ConstructorTests.CreateViaConstructor();
 
             var results = tree.AsDescendants().Select(n => n.Value);
             Assert.That(results, Is.EqualTo(new int[] { 2, 3, 4, 5, 6, 7 }));
@@ -77,7 +77,7 @@ namespace Testing
         [Test]
         public void CheckDescendantsLinqTests()
         {
-            var tree = TreeFactory.CreateViaConstructor();
+            var tree = ConstructorTests.CreateViaConstructor();
 
             var leaves = tree.AsLeaves();
 
@@ -96,7 +96,7 @@ namespace Testing
         [Test]
         public void CheckLeavesTests()
         {
-            var tree = TreeFactory.CreateViaConstructor();
+            var tree = ConstructorTests.CreateViaConstructor();
 
             var results = tree.AsLeaves().Select(n => n.Value);
             Assert.That(results, Is.EqualTo(new int[] { 3, 4, 6, 7 }));
@@ -111,7 +111,7 @@ namespace Testing
         [Test]
         public void CheckLeavesLinqTests()
         {
-            var tree = TreeFactory.CreateViaConstructor();
+            var tree = ConstructorTests.CreateViaConstructor();
 
             var leaves = tree.AsLeaves();
 
@@ -129,7 +129,7 @@ namespace Testing
         [Test]
         public void CheckAncestorsTests()
         {
-            var tree = TreeFactory.CreateViaConstructor();
+            var tree = ConstructorTests.CreateViaConstructor();
 
             var results = tree[0][0].AsAncestors().Select(n => n.Value);
             Assert.That(results, Is.EqualTo(new int[] { 2, 1 }));
@@ -141,7 +141,7 @@ namespace Testing
         [Test]
         public void CheckAncestorsLinqTests()
         {
-            var tree = TreeFactory.CreateViaConstructor();
+            var tree = ConstructorTests.CreateViaConstructor();
 
             var ancestors = tree[0][1].AsAncestors();
 
