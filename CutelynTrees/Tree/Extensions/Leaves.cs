@@ -1,5 +1,4 @@
 ﻿using CutelynTrees.Extensions;
-using CutelynTrees.TraversalMethods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +9,10 @@ namespace CutelynTrees.Extensions
 {
     public static partial class TreeNodeExtensions
     {
-        public static IEnumerable<ITreeNode<TValue>> AsLeaves<TValue>(this ITreeNode<TValue> node)
+        /*public static IEnumerable<ITreeNode<TValue>> AsLeaves<TValue>(this ITreeNode<TValue> node)
         {
             return new LeavesTraversalMethod<TValue>(node);
-        }
+        }*/
 
         public static List<ITreeNode<TValue>> ToLeaves<TValue>(this ITreeNode<TValue> node)
         {
@@ -30,7 +29,23 @@ namespace CutelynTrees.Extensions
             }
 
             foreach (var child in node.Children)
+            {
                 child.ToLeaves(result);
+            }
+        }
+
+
+        public static IEnumerable<ITreeNode<TValue>> AsLeaves<TValue>(this ITreeNode<TValue> node)
+        {
+            if (node.IsLeaf()) yield return node;
+
+            foreach (var child in node.Children)
+            {
+                foreach (var leaf in child.AsLeaves())
+                {
+                    yield return leaf;
+                }
+            }
         }
     }
 }

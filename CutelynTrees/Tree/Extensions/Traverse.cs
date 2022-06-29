@@ -1,5 +1,4 @@
 ﻿using CutelynTrees.Extensions;
-using CutelynTrees.TraversalMethods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +13,63 @@ namespace CutelynTrees.Extensions
         {
             return method switch
             {
-                TreeTraversalMethod.POST_ORDER => new PostOrderTraversalMethod<TValue>(node),
-                TreeTraversalMethod.IN_ORDER => throw new NotImplementedException(), //TODO create in order traversal method
-                _ => new PreOrderTraversalMethod<TValue>(node),
+                TreeTraversalMethod.POST_ORDER => AsPostOrderTraversal(node),
+                TreeTraversalMethod.IN_ORDER => AsInOrderTraversal(node),
+                _ => AsPreOrderTraversal(node),
             };
+        }
+
+        public static IEnumerable<ITreeNode<TValue>> AsPreOrderTraversal<TValue>(this ITreeNode<TValue> node)
+        {
+            if (node is null) yield break;
+
+            yield return node;
+            foreach (var child in node.Children)
+            {
+                foreach (var n in AsPreOrderTraversal(child))
+                {
+                    yield return n;
+                }
+            }
+        }
+
+        public static IEnumerable<ITreeNode<TValue>> AsInOrderTraversal<TValue>(this ITreeNode<TValue> node)
+        {
+            if (node is null) yield break;
+
+            var children = node.Children.ToArray();
+            var position = children.Length / 2;
+
+            for (var i = 0; i < position; i++)
+            {
+                foreach (var n in AsInOrderTraversal(children[i])) {
+                    yield return n;
+                }
+            }
+
+            yield return node;
+
+            for (var i = position; i < children.Length; i++)
+            {
+                foreach (var n in AsInOrderTraversal(children[i]))
+                {
+                    yield return n;
+                }
+            }
+        }
+
+        public static IEnumerable<ITreeNode<TValue>> AsPostOrderTraversal<TValue>(this ITreeNode<TValue> node)
+        {
+            if (node is null) yield break;
+
+            foreach (var child in node.Children)
+            {
+                foreach (var n in AsPostOrderTraversal(child))
+                {
+                    yield return n;
+                }
+            }
+            yield return node;
         }
 
         public static List<ITreeNode<TValue>> ToTraversal<TValue>(this ITreeNode<TValue> node, TreeTraversalMethod method = TreeTraversalMethod.PRE_ORDER)
@@ -29,6 +81,8 @@ namespace CutelynTrees.Extensions
                 _ => node.ToPreOrderTraversal(),
             };
         }
+
+
 
         public static List<ITreeNode<TValue>> ToPreOrderTraversal<TValue>(this ITreeNode<TValue> node)
         {
@@ -43,7 +97,9 @@ namespace CutelynTrees.Extensions
 
             result.Add(node);
             foreach (var child in node.Children)
+            {
                 ToPreOrderTraversal(child, result);
+            }
         }
 
         public static List<ITreeNode<TValue>> ToPostOrderTraversal<TValue>(this ITreeNode<TValue> node)
@@ -58,7 +114,9 @@ namespace CutelynTrees.Extensions
             if (node is null) return;
 
             foreach (var child in node.Children)
+            {
                 ToPostOrderTraversal(child, result);
+            }
             result.Add(node);
         }
 
@@ -77,12 +135,16 @@ namespace CutelynTrees.Extensions
             var position = children.Length / 2;
 
             for (var i = 0; i < position; i++)
+            {
                 ToInOrderTraversal(children[i], result);
+            }
 
             result.Add(node);
 
             for (var i = position; i < children.Length; i++)
+            {
                 ToInOrderTraversal(children[i], result);
+            }
         }
     }
 }

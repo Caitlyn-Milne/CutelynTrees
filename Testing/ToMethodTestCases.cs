@@ -94,7 +94,6 @@ namespace Testing
             Assert.That(leaves.Any(n => n.Value == 3), Is.True);
         }
 
-
         [Test]
         public void CheckLeavesTests()
         {
@@ -128,6 +127,7 @@ namespace Testing
             Assert.That(leaves.Any(n => n.Value == 3), Is.True);
         }
 
+
         [Test]
         public void CheckAncestorsTests()
         {
@@ -156,6 +156,22 @@ namespace Testing
             Assert.That(ancestors.Any(n => n.Value == 5), Is.False);
 
             Assert.That(ancestors.Any(n => n.Value == 2), Is.True);
+        }
+
+        [Test]
+        public void CheckInOrderLinqTests()
+        {
+            var tree = ConstructorTests.CreateViaConstructor();
+
+            var traversal = tree.ToTraversal(TreeTraversalMethod.IN_ORDER);
+
+            var firstEven = traversal.First(n => n.Value % 2 == 0);
+            Assert.That(firstEven.Value, Is.EqualTo(2));
+
+            var evenNums = traversal.Where(n => n.Value % 2 == 0).Select(n => n.Value);
+            Assert.That(evenNums, Is.EqualTo(new int[] { 2, 4, 6 }));
+
+            Assert.That(traversal.Any(n => n.Value == 5), Is.True);
         }
     }
 }

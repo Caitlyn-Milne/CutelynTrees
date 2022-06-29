@@ -21,6 +21,8 @@ namespace Testing
             traversal = tree.AsTraversal(TreeTraversalMethod.POST_ORDER).Select(n => n.Value);
             Assert.That(traversal, Is.EqualTo(new int[] { 3, 4, 2, 6, 7, 5, 1 }));
 
+            traversal = tree.AsTraversal(TreeTraversalMethod.IN_ORDER).Select(n => n.Value);
+            Assert.That(traversal, Is.EqualTo(new int[] { 3, 2, 4, 1, 6, 5, 7 }));
         }
 
         [Test]
@@ -92,7 +94,6 @@ namespace Testing
             Assert.That(leaves.Any(n => n.Value == 3), Is.True);
         }
 
-
         [Test]
         public void CheckLeavesTests()
         {
@@ -126,6 +127,7 @@ namespace Testing
             Assert.That(leaves.Any(n => n.Value == 3), Is.True);
         }
 
+
         [Test]
         public void CheckAncestorsTests()
         {
@@ -154,6 +156,22 @@ namespace Testing
             Assert.That(ancestors.Any(n => n.Value == 5), Is.False);
 
             Assert.That(ancestors.Any(n => n.Value == 2), Is.True);
+        }     
+
+        [Test]
+        public void CheckInOrderLinqTests()
+        {
+            var tree = ConstructorTests.CreateViaConstructor();
+
+            var traversal = tree.AsTraversal(TreeTraversalMethod.IN_ORDER);
+
+            var firstEven = traversal.First(n => n.Value % 2 == 0);
+            Assert.That(firstEven.Value, Is.EqualTo(2));
+
+            var evenNums = traversal.Where(n => n.Value % 2 == 0).Select(n => n.Value);
+            Assert.That(evenNums, Is.EqualTo(new int[] { 2, 4, 6 }));
+
+            Assert.That(traversal.Any(n => n.Value == 5), Is.True);
         }
     }
 }

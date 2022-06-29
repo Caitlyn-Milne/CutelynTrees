@@ -1,4 +1,4 @@
-﻿using CutelynTrees.TraversalMethods;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,14 +16,23 @@ namespace CutelynTrees.Extensions
         }
         public static void ToAncestors<TValue>(this ITreeNode<TValue> node, List<ITreeNode<TValue>> result)
         {
-            if (node is null || node.Parent is null) return;
-            result.Add(node.Parent);
-            node.Parent.ToAncestors(result);
+            if (node is null) return;
+            var current = node.Parent;
+            while (current is not null)
+            {
+                result.Add(current);
+                current = current.Parent;
+            }
         }
 
-        public static IEnumerable<ITreeNode<TValue>> AsAncestors<TValue>(this ITreeNode<TValue> node)
+        public static IEnumerable<ITreeNode<TValue>> AsAncestors<TValue>(this ITreeNode<TValue> node) 
         {
-            return new AncestorsTraversalMethod<TValue>(node);
+            if (node is null) yield break;
+            var current = node.Parent;
+            while (current is not null) {
+                yield return current;
+                current = current.Parent;
+            }
         }
     }
 }

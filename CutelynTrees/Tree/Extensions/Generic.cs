@@ -20,7 +20,7 @@ namespace CutelynTrees.Extensions
 
         public static bool IsBranch<TValue>(this ITreeNode<TValue> node) => !node.IsLeaf() || !node.IsRoot();
 
-        public static ITreeNode<TValue> ToRoot<TValue>(this ITreeNode<TValue> node)
+        public static ITreeNode<TValue>? ToRoot<TValue>(this ITreeNode<TValue>? node)
         {
             if (node is null) return null;
             if (node.IsRoot()) return node;
