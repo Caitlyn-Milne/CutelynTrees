@@ -6,31 +6,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Testing
+namespace Testing.TreeNode
 {
-    internal class AsMethodsTestCases
+    internal class ToMethodsTestCases
     {
         [Test]
         public void CheckFullTraversal()
         {
-            var tree = ConstructorTests.CreateViaConstructor();
+            var tree = ConstructorTests.Create();
 
-            var traversal = tree.AsTraversal().Select(n => n.Value);
+            var traversal = tree.ToTraversal().Select(n => n.Value);
             Assert.That(traversal, Is.EqualTo(new int[] { 1, 2, 3, 4, 5, 6, 7 }));
 
-            traversal = tree.AsTraversal(TreeTraversalMethod.POST_ORDER).Select(n => n.Value);
+            traversal = tree.ToTraversal(TreeTraversalMethod.POST_ORDER).Select(n => n.Value);
             Assert.That(traversal, Is.EqualTo(new int[] { 3, 4, 2, 6, 7, 5, 1 }));
 
-            traversal = tree.AsTraversal(TreeTraversalMethod.IN_ORDER).Select(n => n.Value);
+            traversal = tree.ToTraversal(TreeTraversalMethod.IN_ORDER).Select(n => n.Value);
             Assert.That(traversal, Is.EqualTo(new int[] { 3, 2, 4, 1, 6, 5, 7 }));
         }
 
         [Test]
         public void CheckPreOrderLinqTests()
         {
-            var tree = ConstructorTests.CreateViaConstructor();
+            var tree = ConstructorTests.Create();
 
-            var travseral = tree.AsTraversal();
+            var travseral = tree.ToTraversal();
 
             var firstEven = travseral.First(n => n.Value % 2 == 0);
             Assert.That(firstEven.Value, Is.EqualTo(2));
@@ -44,9 +44,9 @@ namespace Testing
         [Test]
         public void CheckPostOrderLinqTests()
         {
-            var tree = ConstructorTests.CreateViaConstructor();
+            var tree = ConstructorTests.Create();
 
-            var traversal = tree.AsTraversal(TreeTraversalMethod.POST_ORDER);
+            var traversal = tree.ToTraversal(TreeTraversalMethod.POST_ORDER);
 
             var firstEven = traversal.First(n => n.Value % 2 == 0);
             Assert.That(firstEven.Value, Is.EqualTo(4));
@@ -60,18 +60,18 @@ namespace Testing
         [Test]
         public void CheckDescendantsTests()
         {
-            var tree = ConstructorTests.CreateViaConstructor();
+            var tree = ConstructorTests.Create();
 
-            var results = tree.AsDescendants().Select(n => n.Value);
+            var results = tree.ToDescendants().Select(n => n.Value);
             Assert.That(results, Is.EqualTo(new int[] { 2, 3, 4, 5, 6, 7 }));
 
-            results = tree.AsDescendants(TreeTraversalMethod.POST_ORDER).Select(n => n.Value);
+            results = tree.ToDescendants(TreeTraversalMethod.POST_ORDER).Select(n => n.Value);
             Assert.That(results, Is.EqualTo(new int[] { 3, 4, 2, 6, 7, 5 }));
 
-            results = tree[1].AsDescendants().Select(n => n.Value);
+            results = tree[1].ToDescendants().Select(n => n.Value);
             Assert.That(results, Is.EqualTo(new int[] { 6, 7 }));
 
-            results = tree[1].AsDescendants(TreeTraversalMethod.POST_ORDER).Select(n => n.Value);
+            results = tree[1].ToDescendants(TreeTraversalMethod.POST_ORDER).Select(n => n.Value);
             Assert.That(results, Is.EqualTo(new int[] { 6, 7 }));
 
         }
@@ -79,9 +79,9 @@ namespace Testing
         [Test]
         public void CheckDescendantsLinqTests()
         {
-            var tree = ConstructorTests.CreateViaConstructor();
+            var tree = ConstructorTests.Create();
 
-            var leaves = tree.AsLeaves();
+            var leaves = tree.ToLeaves();
 
             var firstEven = leaves.First(n => n.Value % 2 == 0);
             Assert.That(firstEven.Value, Is.EqualTo(4));
@@ -97,24 +97,24 @@ namespace Testing
         [Test]
         public void CheckLeavesTests()
         {
-            var tree = ConstructorTests.CreateViaConstructor();
+            var tree = ConstructorTests.Create();
 
-            var results = tree.AsLeaves().Select(n => n.Value);
+            var results = tree.ToLeaves().Select(n => n.Value);
             Assert.That(results, Is.EqualTo(new int[] { 3, 4, 6, 7 }));
 
-            results = tree[1].AsLeaves().Select(n => n.Value);
+            results = tree[1].ToLeaves().Select(n => n.Value);
             Assert.That(results, Is.EqualTo(new int[] { 6, 7 }));
 
-            results = tree[1][1].AsLeaves().Select(n => n.Value);
+            results = tree[1][1].ToLeaves().Select(n => n.Value);
             Assert.That(results, Is.EqualTo(new int[] { 7 }));
         }
 
         [Test]
         public void CheckLeavesLinqTests()
         {
-            var tree = ConstructorTests.CreateViaConstructor();
+            var tree = ConstructorTests.Create();
 
-            var leaves = tree.AsLeaves();
+            var leaves = tree.ToLeaves();
 
             var firstEven = leaves.First(n => n.Value % 2 == 0);
             Assert.That(firstEven.Value, Is.EqualTo(4));
@@ -131,21 +131,21 @@ namespace Testing
         [Test]
         public void CheckAncestorsTests()
         {
-            var tree = ConstructorTests.CreateViaConstructor();
+            var tree = ConstructorTests.Create();
 
-            var results = tree[0][0].AsAncestors().Select(n => n.Value);
+            var results = tree[0][0].ToAncestors().Select(n => n.Value);
             Assert.That(results, Is.EqualTo(new int[] { 2, 1 }));
 
-            results = tree.AsAncestors().Select(n => n.Value);
+            results = tree.ToAncestors().Select(n => n.Value);
             Assert.That(results, Is.EqualTo(new int[] { }));
         }
 
         [Test]
         public void CheckAncestorsLinqTests()
         {
-            var tree = ConstructorTests.CreateViaConstructor();
+            var tree = ConstructorTests.Create();
 
-            var ancestors = tree[0][1].AsAncestors();
+            var ancestors = tree[0][1].ToAncestors();
 
             var firstEven = ancestors.First(n => n.Value % 2 == 0);
             Assert.That(firstEven.Value, Is.EqualTo(2));
@@ -156,14 +156,14 @@ namespace Testing
             Assert.That(ancestors.Any(n => n.Value == 5), Is.False);
 
             Assert.That(ancestors.Any(n => n.Value == 2), Is.True);
-        }     
+        }
 
         [Test]
         public void CheckInOrderLinqTests()
         {
-            var tree = ConstructorTests.CreateViaConstructor();
+            var tree = ConstructorTests.Create();
 
-            var traversal = tree.AsTraversal(TreeTraversalMethod.IN_ORDER);
+            var traversal = tree.ToTraversal(TreeTraversalMethod.IN_ORDER);
 
             var firstEven = traversal.First(n => n.Value % 2 == 0);
             Assert.That(firstEven.Value, Is.EqualTo(2));

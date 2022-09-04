@@ -82,8 +82,6 @@ namespace CutelynTrees.Extensions
             };
         }
 
-
-
         public static List<ITreeNode<TValue>> ToPreOrderTraversal<TValue>(this ITreeNode<TValue> node)
         {
             var result = new List<ITreeNode<TValue>>();

@@ -9,11 +9,14 @@ namespace CutelynTrees
 {
     public class TreeNode<TValue> : ITreeNode<TValue>
     {
-        public TreeNode(TValue value, params TreeNode<TValue>[] children)
+        public TreeNode(TValue value)
         {
             Value = value;
             Children.CollectionChanged += Children_CollectionChanged;
+        }
 
+        public TreeNode(TValue value, params TreeNode<TValue>[] children) : this(value)
+        {
             foreach (var child in children)
             {
                 Children.Add(child);

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Testing
+namespace Testing.TreeNode
 {
     public class ConstructorTests
     {
@@ -19,16 +19,16 @@ namespace Testing
          *          6
          *          7
          */
-        public static TreeNode<int> CreateViaConstructor()
+        public static TreeNode<int> Create()
         {
-            return new(1,
-                        new(2,
-                            new(3),
-                            new(4)
+            return new TreeNode<int>(1,
+                        new TreeNode<int>(2,
+                            new TreeNode<int>(3),
+                            new TreeNode<int>(4)
                         ),
-                        new(5,
-                            new(6),
-                            new(7)
+                        new TreeNode<int>(5,
+                            new TreeNode<int>(6),
+                            new TreeNode<int>(7)
                         )
                     );
         }
@@ -37,7 +37,7 @@ namespace Testing
         [Test]
         public void CheckTreeNodeConstructor()
         {
-            var tree = CreateViaConstructor();
+            var tree = Create();
 
             Assert.That(tree.Value == 1);
 

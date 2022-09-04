@@ -29,7 +29,8 @@ namespace CutelynTrees.Extensions
         {
             if (node is null) yield break;
             var current = node.Parent;
-            while (current is not null) {
+            while (current is not null) 
+            {
                 yield return current;
                 current = current.Parent;
             }
